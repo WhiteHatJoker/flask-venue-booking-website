@@ -12,6 +12,7 @@ from flask_migrate import Migrate
 import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
+
 from forms import *
 
 # ----------------------------------------------------------------------------#
@@ -25,15 +26,12 @@ db = SQLAlchemy(app)
 
 migrate = Migrate(app, db)
 
-
-# TODO: connect to a local postgresql database
-
 # ----------------------------------------------------------------------------#
 # Models.
 # ----------------------------------------------------------------------------#
 
 
-show = db.Table('show',
+Show = db.Table('show',
                 db.Column('id', db.Integer, primary_key=True),
                 db.Column('venue_id', db.Integer, db.ForeignKey('venue.id'), primary_key=True, unique=False),
                 db.Column('artist_id', db.Integer, db.ForeignKey('artist.id'), primary_key=True, unique=False),
@@ -50,7 +48,7 @@ class Venue(db.Model):
     phone = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
-    artists = db.relationship('Artist', secondary=show, backref=db.backref('venues', lazy=True))
+    artists = db.relationship('Artist', secondary=Show, backref=db.backref('venues', lazy=True))
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
@@ -96,34 +94,29 @@ def index():
 
 
 #  Venues
-#  ----------------------------------------------------------------
+# ----------------------------------------------------------------#
 
+# Querying for venues
 @app.route('/venues')
 def venues():
-    # TODO: replace with real venues data.
-    #       num_shows should be aggregated based on number of upcoming shows per venue.
-    data = [{
-        "city": "San Francisco",
-        "state": "CA",
-        "venues": [{
-            "id": 1,
-            "name": "The Musical Hop",
-            "num_upcoming_shows": 0,
-        }, {
-            "id": 3,
-            "name": "Park Square Live Music & Coffee",
-            "num_upcoming_shows": 1,
-        }]
-    }, {
-        "city": "New York",
-        "state": "NY",
-        "venues": [{
-            "id": 2,
-            "name": "The Dueling Pianos Bar",
-            "num_upcoming_shows": 0,
-        }]
-    }]
-    return render_template('pages/venues.html', areas=data);
+    all_areas = Venue.query.with_entities(Venue.city, Venue.state).group_by(Venue.city, Venue.state).all()
+    data = []
+    today = datetime.utcnow()
+    for area in all_areas:
+        area_venues = Venue.query.filter_by(state=area.state).filter_by(city=area.city).all()
+        venue_data = []
+        for venue in area_venues:
+            venue_data.append({
+                "id": venue.id,
+                "name": venue.name,
+                "num_upcoming_shows": db.session.query(Show).filter(Show.c.venue_id == venue.id).filter(Show.c.start_time > today).count()
+            })
+        data.append({
+            "city": area.city,
+            "state": area.state,
+            "venues": venue_data
+        })
+    return render_template('pages/venues.html', areas=data)
 
 
 # Search for an artist by his name with partial string search (case-insensitive)
