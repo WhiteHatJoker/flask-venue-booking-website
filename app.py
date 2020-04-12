@@ -245,7 +245,7 @@ def delete_venue(venue_id):
 # Querying database for all artists
 @app.route('/artists')
 def artists():
-    return render_template('pages/artists.html', artists=db.session.query(Artist.id, Artist.name).order_by('id').all())
+    return render_template('pages/artists.html', artists=Artist.query.with_entities(Artist.id, Artist.name).order_by('id').all())
 
 
 @app.route('/artists/search', methods=['POST'])
@@ -263,12 +263,13 @@ def search_artists():
   }
   return render_template('pages/search_artists.html', results=response, search_term=request.form.get('search_term', ''))
 
+
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
   data1={
-    "id": 4,
+    "id": 3 ,
     "name": "Guns N Petals",
     "genres": ["Rock n Roll"],
     "city": "San Francisco",
