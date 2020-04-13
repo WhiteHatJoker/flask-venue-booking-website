@@ -222,17 +222,34 @@ def create_venue_form():
     return render_template('forms/new_venue.html', form=form)
 
 
+# Adding new venue data to the model
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
-    # TODO: insert form data as a new Venue record in the db, instead
-    # TODO: modify data to be the data object returned from db insertion
-
-    # on successful db insert, flash success
-    flash('Venue ' + request.form['name'] + ' was successfully listed!')
-    # TODO: on unsuccessful db insert, flash an error instead.
-    # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
-    # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
-    return render_template('pages/home.html')
+    name = request.form['name']
+    address = request.form['address']
+    city = request.form['city']
+    state = request.form['state']
+    phone = request.form['phone']
+    image_link = request.form['image_link']
+    facebook_link = request.form['facebook_link']
+    website = request.form['website']
+    genres = ",".join(request.form.getlist('genres'))
+    seeking_talent = True if request.form.get('seeking_talent') == 'y' else False
+    seeking_description = request.form['seeking_description'] if seeking_talent == True else None
+    try:
+        new_venue = Venue(name=name, address=address, city=city, state=state, phone=phone, image_link=image_link,
+                          facebook_link=facebook_link, website=website, genres=genres, seeking_talent=seeking_talent,
+                          seeking_description=seeking_description
+                          )
+        db.session.add(new_venue)
+        db.session.commit()
+        flash('Venue ' + request.form['name'] + ' was successfully listed!')
+    except:
+        db.session.rollback()
+        flash('Venue ' + request.form['name'] + ' cannot be added!')
+    finally:
+        db.session.close()
+        return render_template('pages/home.html')
 
 
 @app.route('/venues/<venue_id>', methods=['DELETE'])
@@ -277,7 +294,7 @@ def show_artist(artist_id):
     # shows the venue page with the given venue_id
     # TODO: replace with real venue data from the venues table, using venue_id
     data1 = {
-        "id": 3,
+        "id": 4,
         "name": "Guns N Petals",
         "genres": ["Rock n Roll"],
         "city": "San Francisco",

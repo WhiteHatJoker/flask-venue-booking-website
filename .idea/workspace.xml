@@ -4,12 +4,7 @@
     <list default="true" id="614459f4-ea0e-482e-bfaf-d3e6b82ba7c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/13f628093b46_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/275af64e7d7f_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/8d17ecaf2179_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/b1b021b965f4_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/d1f8ecc42617_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/forms/new_venue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/forms/new_venue.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +75,7 @@
       <workItem from="1586768706969" duration="6822000" />
       <workItem from="1586796424674" duration="2135000" />
       <workItem from="1586798606856" duration="135000" />
-      <workItem from="1586798799004" duration="2466000" />
+      <workItem from="1586798799004" duration="10677000" />
     </task>
     <servers />
   </component>
