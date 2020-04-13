@@ -71,7 +71,6 @@ class Artist(db.Model):
 # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
-
 # ----------------------------------------------------------------------------#
 # Filters.
 # ----------------------------------------------------------------------------#
@@ -256,8 +255,7 @@ def delete_venue(venue_id):
 # Querying database for all artists
 @app.route('/artists')
 def artists():
-    return render_template('pages/artists.html',
-                           artists=Artist.query.with_entities(Artist.id, Artist.name).order_by('id').all())
+    return render_template('pages/artists.html', artists=Artist.query.with_entities(Artist.id, Artist.name).order_by('id').all())
 
 
 @app.route('/artists/search', methods=['POST'])
