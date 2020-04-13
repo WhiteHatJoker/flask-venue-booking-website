@@ -41,13 +41,17 @@ Show = db.Table('show',
 
 class Venue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    city = db.Column(db.String(120))
-    state = db.Column(db.String(120))
-    address = db.Column(db.String(120))
-    phone = db.Column(db.String(120))
+    name = db.Column(db.String, nullable=False)
+    city = db.Column(db.String(120), nullable=False)
+    state = db.Column(db.String(120), nullable=False)
+    address = db.Column(db.String(120), nullable=False)
+    phone = db.Column(db.String(120), nullable=False)
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
+    website = db.Column(db.String(120))
+    genres = db.Column(db.PickleType, nullable=False)
+    seeking_talent = db.Column(db.Boolean)
+    seeking_description = db.Column(db.String(500))
     artists = db.relationship('Artist', secondary=Show, backref=db.backref('venues', lazy=True))
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
