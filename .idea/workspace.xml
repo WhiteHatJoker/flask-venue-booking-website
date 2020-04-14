@@ -4,7 +4,6 @@
     <list default="true" id="614459f4-ea0e-482e-bfaf-d3e6b82ba7c8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/forms/new_venue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/forms/new_venue.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +74,10 @@
       <workItem from="1586768706969" duration="6822000" />
       <workItem from="1586796424674" duration="2135000" />
       <workItem from="1586798606856" duration="135000" />
-      <workItem from="1586798799004" duration="10677000" />
+      <workItem from="1586798799004" duration="11844000" />
+      <workItem from="1586815261065" duration="3681000" />
+      <workItem from="1586819171087" duration="4847000" />
+      <workItem from="1586862465496" duration="3757000" />
     </task>
     <servers />
   </component>
@@ -94,13 +96,52 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="274" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586627601561" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1586818943955">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586818943955" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1586818943955">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586818943955" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1586818943955">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586818943955" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1586818943955">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586818943955" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1586818942524">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586818942524" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1586818942524">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586818942524" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1586818942523">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586818942523" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1586818942524">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586818942524" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1586629031868">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586629031868" />
+    <state x="514" y="249" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1586818191155">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="514" y="249" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586818191155" />
     <state x="656" y="118" width="662" height="804" key="find.popup" timestamp="1586726314044">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="656" y="118" width="662" height="804" key="find.popup/0.0.1920.1040/1920.0.1536.824@0.0.1920.1040" timestamp="1586726314044" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Flask_Fyyur_Venue_Booking_Site$Flask_Fyyur_Venue_Booking_Site.coverage" NAME="Flask Fyyur Venue Booking Site Coverage Results" MODIFIED="1586818604028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
