@@ -135,7 +135,7 @@ def show_venue(venue_id):
     venue = Venue.query.filter(Venue.id == venue_id).one()
     past_shows = []
     upcoming_shows = []
-    shows = db.session.query(Show).join(Artist, Artist.id == Show.c.artist_id).filter(Show.c.venue_id == venue_id).all()
+    shows = db.session.query(Venue).join(Show).join(Artist).filter(Show.c.venue_id == venue_id).all()
     for show in shows:
         if show.start_time > now:
             upcoming_shows.append({
@@ -337,6 +337,8 @@ def show_artist(artist_id):
 @app.route('/artists/<int:artist_id>/edit', methods=['GET'])
 def edit_artist(artist_id):
     form = ArtistForm()
+    artist = Artist.query.filter_by(id=artist_id).one()
+    flash(artist)
     artist = {
         "id": 4,
         "name": "Guns N Petals",
