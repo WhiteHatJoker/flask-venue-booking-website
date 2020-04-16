@@ -72,13 +72,14 @@ class Artist(db.Model):
 # Filters.
 # ----------------------------------------------------------------------------#
 
+
 def format_datetime(value, format='medium'):
     date = dateutil.parser.parse(value)
     if format == 'full':
         format = "EEEE MMMM, d, y 'at' h:mma"
     elif format == 'medium':
         format = "EE MM, dd, y h:mma"
-    return babel.dates.format_datetime(date, format)
+    return babel.dates.format_datetime(date, format, locale='en')
 
 
 app.jinja_env.filters['datetime'] = format_datetime
@@ -128,6 +129,7 @@ def search_venues():
     return render_template('pages/search_venues.html', results=response, search_term=search_term)
 
 
+# Querying for specific venue information
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
     # shows the venue page with the given venue_id
@@ -148,16 +150,15 @@ def show_venue(venue_id):
             'artist_id': past_show.id,
             'artist_name': past_show.name,
             'artist_image_link': past_show.image_link,
-            'start_time': "2019-05-21T21:30:00.000Z"
+            'start_time': past_show.start_time.strftime("%A %B %d %Y %I:%M %p")
         })
     for future_show in upcoming_shows_query:
         upcoming_shows.append({
             'artist_id': future_show.id,
             'artist_name': future_show.name,
             'artist_image_link': future_show.image_link,
-            'start_time': "2019-05-21T21:30:00.000Z"
+            'start_time': future_show.start_time.strftime("%A %B %d %Y %I:%M %p")
         })
-        print(future_show.start_time)
 
     data = {
         "id": venue_id,
@@ -178,7 +179,6 @@ def show_venue(venue_id):
         "past_shows_count": len(past_shows)
     }
 
-    print(now)
 
     return render_template('pages/show_venue.html', venue=data)
 
