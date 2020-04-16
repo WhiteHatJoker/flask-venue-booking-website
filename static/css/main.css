@@ -209,3 +209,11 @@ h2.monospace {
 .subtitle {
   opacity: 0.5;
 }
+#delete-venue {
+  color: white;
+  background-color: red;
+  width: 100px;
+}
+.buttons-wrapper {
+  margin: 15px 0px;
+}

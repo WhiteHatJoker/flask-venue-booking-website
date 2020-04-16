@@ -41,6 +41,9 @@
 			<i class="fas fa-moon"></i> Not currently seeking talent
 		</p>
 		{% endif %}
+        <div class="buttons-wrapper">
+            <button id="delete-venue" data-id="{{ venue.id }}">Delete</button>
+        </div>
 	</div>
 	<div class="col-sm-6">
 		<img src="{{ venue.image_link }}" alt="Venue Image" />
