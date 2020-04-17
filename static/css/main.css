@@ -223,3 +223,6 @@ h2.monospace {
   width: 100px;
   margin-right: 15px;
 }
+#seeking_description_field {
+  display: none;
+}
