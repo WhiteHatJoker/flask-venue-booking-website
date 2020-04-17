@@ -31,12 +31,11 @@ migrate = Migrate(app, db)
 # ----------------------------------------------------------------------------#
 
 
-Show = db.Table('show',
-                db.Column('id', db.Integer, primary_key=True),
-                db.Column('venue_id', db.Integer, db.ForeignKey('venue.id', ondelete='CASCADE'), primary_key=True, unique=False),
-                db.Column('artist_id', db.Integer, db.ForeignKey('artist.id', ondelete='CASCADE'), primary_key=True, unique=False),
-                db.Column('start_time', db.DateTime, nullable=False)
-                )
+class Show(db.Model):
+    db.Column('id', db.Integer, primary_key=True),
+    db.Column('venue_id', db.Integer, db.ForeignKey('venue.id', ondelete='CASCADE'), primary_key=True, unique=False),
+    db.Column('artist_id', db.Integer, db.ForeignKey('artist.id', ondelete='CASCADE'), primary_key=True, unique=False),
+    db.Column('start_time', db.DateTime, nullable=False)
 
 
 class Venue(db.Model):
@@ -67,6 +66,7 @@ class Artist(db.Model):
     website = db.Column(db.String(120))
     seeking_venue = db.Column(db.Boolean, default=True)
     seeking_description = db.Column(db.String(500))
+    shows = db.relationship('Show', backref=db.backref('artist', lazy=True), passive_deletes=True)
 
 # ----------------------------------------------------------------------------#
 # Filters.
@@ -110,7 +110,7 @@ def venues():
             venue_data.append({
                 "id": venue.id,
                 "name": venue.name,
-                "num_upcoming_shows": db.session.query(Show).filter(Show.c.venue_id == venue.id).filter(Show.c.start_time > today).count()
+                "num_upcoming_shows": db.session.query(Show).filter(Show.venue_id == venue.id).filter(Show.start_time > today).count()
             })
         data.append({
             "city": area.city,
@@ -138,12 +138,12 @@ def show_venue(venue_id):
     now = datetime.utcnow()
     venue = Venue.query.get(venue_id)
 
-    past_shows_query = db.session.query(Artist.id, Artist.name, Artist.image_link, Show.c.start_time)\
-        .join(Show, Artist.id == Show.c.artist_id)\
-        .filter(Show.c.venue_id == venue_id).filter(Show.c.start_time > now).all()
-    upcoming_shows_query = db.session.query(Artist.id, Artist.name, Artist.image_link, Show.c.start_time) \
-        .join(Show, Artist.id == Show.c.artist_id) \
-        .filter(Show.c.venue_id == venue_id).filter(Show.c.start_time < now).all()
+    past_shows_query = db.session.query(Artist.id, Artist.name, Artist.image_link, Show.start_time)\
+        .join(Show, Artist.id == Show.artist_id)\
+        .filter(Show.venue_id == venue_id).filter(Show.start_time > now).all()
+    upcoming_shows_query = db.session.query(Artist.id, Artist.name, Artist.image_link, Show.start_time) \
+        .join(Show, Artist.id == Show.artist_id) \
+        .filter(Show.venue_id == venue_id).filter(Show.start_time < now).all()
 
     for past_show in past_shows_query:
         past_shows.append({
@@ -259,7 +259,7 @@ def search_artists():
         data.append({
             'id': artist.id,
             'name': artist.name,
-            'num_upcoming_shows': db.session.query(Show).filter(Show.c.artist_id == artist.id).filter(Show.c.start_time > now).count()
+            'num_upcoming_shows': db.session.query(Show).filter(Show.artist_id == artist.id).filter(Show.start_time > now).count()
         })
     response = {
         'data': data,
@@ -276,12 +276,12 @@ def show_artist(artist_id):
     now = datetime.utcnow()
     artist = Artist.query.get(artist_id)
 
-    past_shows_query = db.session.query(Venue.id, Venue.name, Venue.image_link, Show.c.start_time)\
-        .join(Show, Venue.id == Show.c.venue_id)\
-        .filter(Show.c.artist_id == artist_id).filter(Show.c.start_time > now).all()
-    upcoming_shows_query = db.session.query(Venue.id, Venue.name, Venue.image_link, Show.c.start_time) \
-        .join(Show, Venue.id == Show.c.venue_id) \
-        .filter(Show.c.artist_id == artist_id).filter(Show.c.start_time < now).all()
+    past_shows_query = db.session.query(Venue.id, Venue.name, Venue.image_link, Show.start_time)\
+        .join(Show, Venue.id == Show.venue_id)\
+        .filter(Show.artist_id == artist_id).filter(Show.start_time > now).all()
+    upcoming_shows_query = db.session.query(Venue.id, Venue.name, Venue.image_link, Show.start_time) \
+        .join(Show, Venue.id == Show.venue_id) \
+        .filter(Show.artist_id == artist_id).filter(Show.start_time < now).all()
 
     for past_show in past_shows_query:
         past_shows.append({
@@ -444,7 +444,7 @@ def shows():
     #       num_shows should be aggregated based on number of upcoming shows per venue.
     data = []
     shows = db.session.query(Show, Venue.name.label("venue_name"), Artist.name.label("artist_name"), Artist.image_link.label("artist_image_link"))\
-        .join(Artist, Artist.id == Show.c.artist_id).join(Venue, Venue.id == Show.c.venue_id).all()
+        .join(Artist, Artist.id == Show.artist_id).join(Venue, Venue.id == Show.venue_id).all()
     for show in shows:
         data.append({
             "venue_id": show.venue_id,
@@ -486,7 +486,7 @@ def create_show_submission():
             db.session.close()
     else:
         flash("The Artist or Venue with a given ID doesn't exist. Please check the ID and create a show again")
-    return render_template(url_for('shows'))
+    return render_template('pages/home.html')
 
 
 @app.errorhandler(404)
