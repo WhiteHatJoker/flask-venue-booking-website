@@ -28,18 +28,21 @@ migrate = Migrate(app, db)
 
 # ----------------------------------------------------------------------------#
 # Models.
-# ----------------------------------------------------------------------------#
+# ---------------
+# -------------------------------------------------------------#
+
 
 
 class Show(db.Model):
-    db.Column('id', db.Integer, primary_key=True),
-    db.Column('venue_id', db.Integer, db.ForeignKey('venue.id', ondelete='CASCADE'), primary_key=True, unique=False),
-    db.Column('artist_id', db.Integer, db.ForeignKey('artist.id', ondelete='CASCADE'), primary_key=True, unique=False),
-    db.Column('start_time', db.DateTime, nullable=False)
-
+    __tablename__ = 'Show'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id', ondelete='CASCADE'), primary_key=True, unique=False)
+    artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id', ondelete='CASCADE'), primary_key=True, unique=False)
+    start_time = db.Column(db.DateTime, nullable=False)
 
 class Venue(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'Venue'
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     name = db.Column(db.String, nullable=False)
     city = db.Column(db.String(120), nullable=False)
     state = db.Column(db.String(120), nullable=False)
@@ -51,11 +54,12 @@ class Venue(db.Model):
     genres = db.Column(db.String(120), nullable=False)
     seeking_talent = db.Column(db.Boolean, default=True)
     seeking_description = db.Column(db.String(500))
-    artists = db.relationship('Artist', secondary=Show, passive_deletes=True, backref=db.backref('venues', lazy=True))
+    artists = db.relationship('Show', passive_deletes=True, backref='venues', lazy=True)
 
 
 class Artist(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'Artist'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     city = db.Column(db.String(120), nullable=False)
     state = db.Column(db.String(120), nullable=False)
@@ -66,7 +70,8 @@ class Artist(db.Model):
     website = db.Column(db.String(120))
     seeking_venue = db.Column(db.Boolean, default=True)
     seeking_description = db.Column(db.String(500))
-    shows = db.relationship('Show', backref=db.backref('artist', lazy=True), passive_deletes=True)
+    venues = db.relationship('Show', backref='artists', passive_deletes=True, lazy=True)
+
 
 # ----------------------------------------------------------------------------#
 # Filters.
@@ -443,7 +448,7 @@ def shows():
     # TODO: replace with real venues data.
     #       num_shows should be aggregated based on number of upcoming shows per venue.
     data = []
-    shows = db.session.query(Show, Venue.name.label("venue_name"), Artist.name.label("artist_name"), Artist.image_link.label("artist_image_link"))\
+    shows = db.session.query(Show.venue_id, Show.artist_id, Show.start_time, Venue.name.label("venue_name"), Artist.name.label("artist_name"), Artist.image_link.label("artist_image_link"))\
         .join(Artist, Artist.id == Show.artist_id).join(Venue, Venue.id == Show.venue_id).all()
     for show in shows:
         data.append({
