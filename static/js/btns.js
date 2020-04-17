@@ -21,6 +21,10 @@ if(deleteBtn) {
     }
 }
 
+
+const checkBx = document.querySelector('input#seeking_talent');
+const checkBx2 = document.querySelector('input#seeking_venue');
+const seekingTextField = document.getElementById('seeking_description_field');
 function hideSeeking(checkBox, hideField) {
     if (checkBox.checked == true){
         hideField.style.display = "block";
@@ -28,14 +32,17 @@ function hideSeeking(checkBox, hideField) {
         hideField.style.display = "none";
     }
 }
-
-const checkBx = document.querySelector('input#seeking_talent');
-const checkBx2 = document.querySelector('input#seeking_venue');
-const seekingTextField = document.getElementById('seeking_description_field');
+window.addEventListener('load', function() {
+    if (checkBx) {
+        hideSeeking(checkBx, seekingTextField);
+    } else if (checkBx2) {
+        hideSeeking(checkBx2, seekingTextField);
+    }
+})
 if (checkBx) {
     checkBx.addEventListener('click', function () {  hideSeeking(checkBx, seekingTextField) });
 } else if(checkBx2) {
-    checkBx.addEventListener('click', function () {  hideSeeking(checkBx2, seekingTextField) });
+    checkBx2.addEventListener('click', function () {  hideSeeking(checkBx2, seekingTextField) });
 }
 
 
