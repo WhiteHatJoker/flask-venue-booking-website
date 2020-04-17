@@ -1,5 +1,5 @@
 const deleteBtn = document.getElementById('delete-venue');
-deleteBtn.onclick = function (e) {
+deleteBtn.onclick = function(e) {
     const venueId = e.target.dataset['id'];
     fetch('/venues/' + venueId, {
         method: 'DELETE'
@@ -11,8 +11,10 @@ deleteBtn.onclick = function (e) {
             document.location.href="/venues";
         } else {
             console.log(jsonResponse['success']);
+            document.location.href="/venues/"+venueId;
         }
     }).catch(function() {
         console.log('Error');
+        document.location.href="/venues/"+venueId;
     });
 }

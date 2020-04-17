@@ -33,8 +33,8 @@ migrate = Migrate(app, db)
 
 Show = db.Table('show',
                 db.Column('id', db.Integer, primary_key=True),
-                db.Column('venue_id', db.Integer, db.ForeignKey('venue.id'), primary_key=True, unique=False),
-                db.Column('artist_id', db.Integer, db.ForeignKey('artist.id'), primary_key=True, unique=False),
+                db.Column('venue_id', db.Integer, db.ForeignKey('venue.id', ondelete='CASCADE'), primary_key=True, unique=False),
+                db.Column('artist_id', db.Integer, db.ForeignKey('artist.id', ondelete='CASCADE'), primary_key=True, unique=False),
                 db.Column('start_time', db.DateTime, nullable=False)
                 )
 
@@ -52,7 +52,7 @@ class Venue(db.Model):
     genres = db.Column(db.String(120), nullable=False)
     seeking_talent = db.Column(db.Boolean, default=True)
     seeking_description = db.Column(db.String(500))
-    artists = db.relationship('Artist', secondary=Show, cascade="all, delete-orphan", single_parent=True, backref=db.backref('venues', lazy=True))
+    artists = db.relationship('Artist', secondary=Show, passive_deletes=True, backref=db.backref('venues', lazy=True))
 
 
 class Artist(db.Model):
@@ -324,30 +324,50 @@ def show_artist(artist_id):
 @app.route('/artists/<int:artist_id>/edit', methods=['GET'])
 def edit_artist(artist_id):
     form = ArtistForm()
-    artist = Artist.query.filter_by(id=artist_id).one()
-    flash(artist)
+    artist = Artist.query.get(artist_id)
     artist = {
-        "id": 4,
-        "name": "Guns N Petals",
-        "genres": ["Rock n Roll"],
-        "city": "San Francisco",
-        "state": "CA",
-        "phone": "326-123-5000",
-        "website": "https://www.gunsnpetalsband.com",
-        "facebook_link": "https://www.facebook.com/GunsNPetals",
-        "seeking_venue": True,
-        "seeking_description": "Looking for shows to perform at in the San Francisco Bay Area!",
-        "image_link": "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"
+        "id": artist.id,
+        "name": artist.name,
+        "genres": artist.genres,
+        "city": artist.city,
+        "state": artist.state,
+        "phone": artist.phone,
+        "website": artist.website,
+        "facebook_link": artist.facebook_link,
+        "seeking_venue": artist.seeking_venue,
+        "seeking_description": artist.seeking_description,
+        "image_link": artist.image_link
     }
-    # TODO: populate form with fields from artist with ID <artist_id>
+    # TODO: populate form with fields from artist with ID <artist_id> not fully finished
     return render_template('forms/edit_artist.html', form=form, artist=artist)
 
 
 @app.route('/artists/<int:artist_id>/edit', methods=['POST'])
 def edit_artist_submission(artist_id):
-    # TODO: take values from the form submitted, and update existing
-    # artist record with ID <artist_id> using the new attributes
+    artist = Artist.query.get(artist_id)
+    seeking_venue = True if request.form.get('seeking_venue') == 'y' else False
+    seeking_description = request.form['seeking_description'] if seeking_venue == True else None
+    try:
+        artist.name = request.form['name']
+        artist.city = request.form['city']
+        artist.state = request.form['state']
+        artist.phone = request.form['phone']
+        artist.image_link = request.form['image_link']
+        artist.facebook_link = request.form['facebook_link']
+        artist.website = request.form['website']
+        artist.genres = ",".join(request.form.getlist('genres'))
+        artist.seeking_venue = seeking_venue
+        artist.seeking_description = seeking_description
 
+        db.session.add(artist)
+        db.session.commit()
+        flash('Artist ' + request.form['name'] + ' was successfully updated!')
+    except:
+        db.session.rollback()
+        flash('Artist ' + request.form['name'] + ' cannot be updated!')
+    finally:
+        db.session.close()
+    # TODO: take values from the form submitted, and update existing check it first
     return redirect(url_for('show_artist', artist_id=artist_id))
 
 
@@ -378,7 +398,6 @@ def create_artist_form():
 # Create a new artist via the form submission
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
-
     name = request.form['name']
     city = request.form['city']
     state = request.form['state']
