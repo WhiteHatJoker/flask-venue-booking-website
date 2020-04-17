@@ -42,6 +42,7 @@
 		</p>
 		{% endif %}
         <div class="buttons-wrapper">
+            <button id="edit-venue" onclick="location.href='/venues/{{ venue.id }}/edit'">Edit</button>
             <button id="delete-venue" data-id="{{ venue.id }}">Delete</button>
         </div>
 	</div>

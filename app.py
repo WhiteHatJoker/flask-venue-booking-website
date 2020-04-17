@@ -220,7 +220,7 @@ def create_venue_submission():
         flash('Venue ' + request.form['name'] + ' cannot be added!')
     finally:
         db.session.close()
-    return render_template('pages/home.html')
+    return render_template('pages/venues.html')
 
 
 # Deleting a specific venue
@@ -431,7 +431,7 @@ def create_artist_submission():
         flash('Artist ' + name + ' cannot be added!')
     finally:
         db.session.close()
-    return render_template('pages/home.html')
+    return render_template('pages/artists.html')
 
 
 #  Shows
@@ -483,7 +483,7 @@ def create_show_submission():
             db.session.close()
     else:
         flash("The Artist or Venue with a given ID doesn't exist. Please check the ID and create a show again")
-    return render_template('pages/home.html')
+    return render_template('pages/shows.html')
 
 
 @app.errorhandler(404)
