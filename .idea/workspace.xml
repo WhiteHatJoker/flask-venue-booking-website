@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="614459f4-ea0e-482e-bfaf-d3e6b82ba7c8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/migrations/versions/f5413dad3f7a_.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/btns.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/btns.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/forms/edit_artist.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/forms/edit_artist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/forms/edit_venue.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/forms/edit_venue.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +89,8 @@
       <workItem from="1586902514208" duration="2685000" />
       <workItem from="1586954781021" duration="9069000" />
       <workItem from="1586985088303" duration="9517000" />
-      <workItem from="1587034361731" duration="22018000" />
+      <workItem from="1587034361731" duration="22980000" />
+      <workItem from="1587123153890" duration="2063000" />
     </task>
     <servers />
   </component>
