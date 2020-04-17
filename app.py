@@ -445,7 +445,6 @@ def shows():
     data = []
     shows = db.session.query(Show, Venue.name.label("venue_name"), Artist.name.label("artist_name"), Artist.image_link.label("artist_image_link"))\
         .join(Artist, Artist.id == Show.c.artist_id).join(Venue, Venue.id == Show.c.venue_id).all()
-
     for show in shows:
         data.append({
             "venue_id": show.venue_id,
@@ -455,9 +454,6 @@ def shows():
             "artist_image_link": show.artist_image_link,
             "start_time": show.start_time.strftime("%A %B %d %Y %I:%M %p")
         })
-
-    print(data)
-
     return render_template('pages/shows.html', shows=data)
 
 
@@ -472,13 +468,25 @@ def create_shows():
 def create_show_submission():
     # called to create new shows in the db, upon submitting new show listing form
     # TODO: insert form data as a new Show record in the db, instead
-
-    # on successful db insert, flash success
-    flash('Show was successfully listed!')
-    # TODO: on unsuccessful db insert, flash an error instead.
-    # e.g., flash('An error occurred. Show could not be listed.')
-    # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
-    return render_template('pages/home.html')
+    venue_id = request.form['venue_id']
+    artist_id = request.form['artist_id']
+    start_time = request.form['start_time']
+    venue = Venue.query.get(venue_id)
+    artist = Artist.query.get(artist_id)
+    if venue and artist:
+        try:
+            new_show = Show(venue_id=venue_id, artist_id=artist_id, start_time=start_time)
+            db.session.add(new_show)
+            db.session.commit()
+            flash('Your show was successfully listed!')
+        except:
+            db.session.rollback()
+            flash('Your show cannot be added. Please try again')
+        finally:
+            db.session.close()
+    else:
+        flash("The Artist or Venue with a given ID doesn't exist. Please check the ID and create a show again")
+    return render_template(url_for('shows'))
 
 
 @app.errorhandler(404)
