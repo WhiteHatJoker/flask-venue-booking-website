@@ -26,8 +26,11 @@
 		<p>
 			<i class="fab fa-facebook-f"></i> {% if artist.facebook_link %}<a href="{{ artist.facebook_link }}" target="_blank">{{ artist.facebook_link }}</a>{% else %}No Facebook Link{% endif %}
         </p>
+        <div class="buttons-wrapper">
+            <button id="edit-venue" onclick="location.href='/artists/{{ artist.id }}/edit'">Edit</button>
+        </div>
 		{% if artist.seeking_venue %}
-		<div class="seeking">
+		<div class="seeking" style="margin-top:10px;">
 			<p class="lead">Currently seeking performance venues</p>
 			<div class="description">
 				<i class="fas fa-quote-left"></i> {{ artist.seeking_description }} <i class="fas fa-quote-right"></i>
