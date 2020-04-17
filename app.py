@@ -220,7 +220,7 @@ def create_venue_submission():
         flash('Venue ' + request.form['name'] + ' cannot be added!')
     finally:
         db.session.close()
-    return render_template('pages/venues.html')
+    return redirect(url_for('venues'))
 
 
 # Deleting a specific venue
@@ -229,12 +229,13 @@ def delete_venue(venue_id):
     try:
         error = False
         venue = Venue.query.get(venue_id)
+        name = venue.name
         db.session.delete(venue)
         db.session.commit()
-        flash(f'Venue {venue_id} was successfully deleted.')
+        flash(f'Venue {name} was successfully deleted.')
     except:
         db.session.rollback()
-        flash(f'An error occurred. Venue {venue_id} could not be deleted.')
+        flash(f'An error occurred. Venue {name} could not be deleted.')
         error = True
     finally:
         db.session.close()
@@ -431,7 +432,7 @@ def create_artist_submission():
         flash('Artist ' + name + ' cannot be added!')
     finally:
         db.session.close()
-    return render_template('pages/artists.html')
+    return redirect(url_for('artists'))
 
 
 #  Shows
@@ -483,7 +484,7 @@ def create_show_submission():
             db.session.close()
     else:
         flash("The Artist or Venue with a given ID doesn't exist. Please check the ID and create a show again")
-    return render_template('pages/shows.html')
+    return redirect(url_for('shows'))
 
 
 @app.errorhandler(404)
