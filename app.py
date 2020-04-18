@@ -329,8 +329,15 @@ def show_artist(artist_id):
 def edit_artist(artist_id):
     form = ArtistForm()
     artist = Artist.query.get(artist_id)
+    form.name.data = artist.name
+    form.city.data = artist.city
     form.state.data = artist.state
+    form.phone.data = artist.phone
+    form.image_link.data = artist.image_link
+    form.facebook_link.data = artist.facebook_link
+    form.website.data = artist.website
     form.genres.data = artist.genres
+    form.seeking_venue.data = artist.seeking_venue
     form.seeking_description.data = artist.seeking_description
     return render_template('forms/edit_artist.html', form=form, artist=artist)
 
@@ -368,8 +375,16 @@ def edit_artist_submission(artist_id):
 def edit_venue(venue_id):
     form = VenueForm()
     venue = Venue.query.get(venue_id)
+    form.name.data = venue.name
+    form.address.data = venue.address
+    form.city.data = venue.city
     form.state.data = venue.state
+    form.phone.data = venue.phone
     form.genres.data = venue.genres
+    form.image_link.data = venue.image_link
+    form.facebook_link.data = venue.facebook_link
+    form.website.data = venue.website
+    form.seeking_talent.data = venue.seeking_talent
     form.seeking_description.data = venue.seeking_description
     return render_template('forms/edit_venue.html', form=form, venue=venue)
 
